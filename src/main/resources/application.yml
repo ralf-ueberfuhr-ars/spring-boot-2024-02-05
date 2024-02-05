@@ -1,0 +1,17 @@
+# server:
+#  port: 9080
+
+management:
+  endpoints:
+    web:
+      base-path: /manage
+      exposure:
+        include: '*'
+springdoc:
+  swagger-ui:
+    urls:
+      - name: Todos API (Contract First modeled)
+        url: /openapi.yml
+      - name: Todos API (generated from code) # this is the default, if not configured
+        url: /v3/api-docs
+    urls-primary-name: Todos API (Contract First modeled)
