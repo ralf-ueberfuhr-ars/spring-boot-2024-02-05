@@ -1,0 +1,19 @@
+GET {{endpoint}}/customers
+Accept: application/json
+
+> {%
+ client.test('Customers read successfully', () => {
+     client.assert(response.status === 200);
+ });
+%}
+
+###
+
+GET {{endpoint}}/customers
+Accept: application/xml
+
+> {%
+    client.test('XML content type not available', () => {
+        client.assert(response.status === 406);
+    });
+%}
