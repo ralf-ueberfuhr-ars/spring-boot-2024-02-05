@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -24,7 +24,13 @@ class ApiTests {
         get("/api/v1/customers")
           .accept(MediaType.APPLICATION_JSON)
       )
-      .andExpect(status().isOk());
+      .andExpect(status().isOk())
+      // .andExpect(header().exists(HttpHeaders.CONTENT_TYPE))
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      // Größe des Arrays unbekannt
+      //.andExpect(jsonPath("$.size()").value(1));
+      .andExpect(jsonPath("$.size()").exists());
+
   }
 
 
