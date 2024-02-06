@@ -19,7 +19,27 @@ Accept: application/xml
 %}
 
 ###
-PUT {{endpoint}}/customers/adad9102-08dd-4b0b-90fc-85207ac41e78
+POST {{endpoint}}/customers
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Julia",
+  "birthdate": "1996-03-04",
+  "state": "active"
+}
+
+> {%
+    client.test('Customer created successfully', () => {
+        client.assert(response.status === 201);
+        client.assert(response.headers.valueOf("Location") !== undefined);
+        client.assert(response.body['uuid'] !== undefined);
+    });
+    client.global.set('customerUrl', response.headers.valueOf("Location"));
+ %}
+
+###
+PUT {{customerUrl}}
 Content-Type: application/json
 
 {
