@@ -1,5 +1,6 @@
 package de.schulungen.spring.customers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,11 +43,11 @@ public class CustomersController {
   }
 
   @GetMapping("/{uuid}")
-  ResponseEntity<Customer> findByUuid(@PathVariable UUID uuid) {
+  Customer findByUuid(@PathVariable UUID uuid) {
     if(!customers.containsKey(uuid)) {
-      return ResponseEntity.notFound().build();
+      throw new NotFoundException();
     }
-    return ResponseEntity.ok(customers.get(uuid));
+    return customers.get(uuid);
   }
 
   // Anlegen: POST /customers + Body -> 201 + Body + Location-Header
@@ -70,14 +71,13 @@ public class CustomersController {
 
   // Überschreiben: PUT /customers/{uuid} + Body ->
   @PutMapping("/{uuid}")
-  //@ResponseStatus(HttpStatus.NO_CONTENT)
-  ResponseEntity<Void> replace(@PathVariable UUID uuid, @RequestBody Customer customer) {
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  void replace(@PathVariable UUID uuid, @RequestBody Customer customer) {
     if(!customers.containsKey(uuid)) {
-      return ResponseEntity.notFound().build();
+      throw new NotFoundException();
     }
     customer.setUuid(uuid);
     customers.put(uuid, customer);
-    return ResponseEntity.noContent().build();
   }
 
   // Löschen
