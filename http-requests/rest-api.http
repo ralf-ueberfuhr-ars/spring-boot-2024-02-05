@@ -1,0 +1,55 @@
+GET {{endpoint}}/customers
+Accept: application/json
+
+> {%
+ client.test('Customers read successfully', () => {
+     client.assert(response.status === 200);
+ });
+%}
+
+###
+
+GET {{endpoint}}/customers
+Accept: application/xml
+
+> {%
+    client.test('XML content type not available', () => {
+        client.assert(response.status === 406);
+    });
+%}
+
+###
+POST {{endpoint}}/customers
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Julia",
+  "birthdate": "1996-03-04",
+  "state": "active"
+}
+
+> {%
+    client.test('Customer created successfully', () => {
+        client.assert(response.status === 201);
+        client.assert(response.headers.valueOf("Location") !== undefined);
+        client.assert(response.body['uuid'] !== undefined);
+    });
+    client.global.set('customerUrl', response.headers.valueOf("Location"));
+ %}
+
+###
+PUT {{customerUrl}}
+Content-Type: application/json
+
+{
+  "name": "Tom Tom",
+  "birthdate": "2000-02-14",
+  "state": "locked"
+}
+
+> {%
+    client.test('Replaced successfully', () => {
+        client.assert(response.status === 204);
+    });
+%}
