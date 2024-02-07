@@ -1,6 +1,5 @@
 package de.schulungen.spring.customers.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,10 +10,9 @@ import java.util.UUID;
 @Setter
 public class Customer {
 
-  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
   private UUID uuid;
   private String name;
   private LocalDate birthdate;
-  private String state;
+  private CustomerState state;
 
 }

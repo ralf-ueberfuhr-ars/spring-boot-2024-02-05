@@ -21,26 +21,32 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class CustomersController {
 
   private final CustomersService service;
+  private final CustomerDTOMapper mapper;
+
 
   @GetMapping
-  Collection<Customer> findAllCustomers() {
+  Collection<CustomerDTO> findAllCustomers() {
       return service
         .getAll()
+        .map(mapper::map)
         .toList();
   }
 
   @GetMapping("/{uuid}")
-  Customer findByUuid(@PathVariable UUID uuid) {
+  CustomerDTO findByUuid(@PathVariable UUID uuid) {
     return service
       .findByUuid(uuid)
+      .map(mapper::map)
       .orElseThrow(NotFoundException::new);
   }
 
   // Anlegen: POST /customers + Body -> 201 + Body + Location-Header
   @PostMapping
   //@ResponseStatus(HttpStatus.CREATED)
-  ResponseEntity<Customer> create(@RequestBody Customer customer) {
+  ResponseEntity<CustomerDTO> create(@RequestBody CustomerDTO customerDto) {
+    Customer customer = mapper.map(customerDto);
     service.create(customer);
+    CustomerDTO body = mapper.map(customer);
     URI location = linkTo(
       methodOn(CustomersController.class).findByUuid(customer.getUuid())
     ).toUri();
@@ -52,15 +58,15 @@ public class CustomersController {
 */
     return ResponseEntity
       .created(location)
-      .body(customer);
+      .body(body);
   }
 
   // Überschreiben: PUT /customers/{uuid} + Body ->
   @PutMapping("/{uuid}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  void replace(@PathVariable UUID uuid, @RequestBody Customer customer) {
+  void replace(@PathVariable UUID uuid, @RequestBody CustomerDTO customer) {
     customer.setUuid(uuid);
-    service.replace(customer);
+    service.replace(mapper.map(customer));
   }
 
   // Löschen
