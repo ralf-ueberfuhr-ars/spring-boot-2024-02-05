@@ -1,5 +1,6 @@
 package de.schulungen.spring.customers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +15,16 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api/v1/customers")
+@RequiredArgsConstructor
 public class CustomersController {
 
-  @Autowired
-  CustomersService service;
+  private final CustomersService service;
 
   @GetMapping
   Collection<Customer> findAllCustomers() {
-    return service
-      .getAll()
-      .toList();
+      return service
+        .getAll()
+        .toList();
   }
 
   @GetMapping("/{uuid}")
