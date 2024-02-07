@@ -3,6 +3,7 @@ package de.schulungen.spring.customers.boundary;
 import de.schulungen.spring.customers.domain.CustomersService;
 import de.schulungen.spring.customers.domain.NotFoundException;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -25,7 +26,7 @@ class CustomersControllerTest {
     // Arrange
     UUID uuid = UUID.randomUUID();
     CustomersService service = mock(CustomersService.class);
-    CustomerDTOMapper mapper = new CustomerDTOMapper();
+    CustomerDTOMapper mapper = Mappers.getMapper(CustomerDTOMapper.class);
     CustomersController controller = new CustomersController(service, mapper);
     when(service.findByUuid(uuid))
       .thenReturn(Optional.empty());

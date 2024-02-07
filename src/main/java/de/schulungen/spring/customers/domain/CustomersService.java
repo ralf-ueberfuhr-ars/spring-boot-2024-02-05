@@ -21,13 +21,13 @@ public class CustomersService {
     c1.setUuid(UUID.randomUUID());
     c1.setName("Tom");
     c1.setBirthdate(LocalDate.of(2000, Month.FEBRUARY, 14));
-    c1.setState("active");
+    c1.setState(CustomerState.ACTIVE);
     customers.put(c1.getUuid(), c1);
     Customer c2 = new Customer();
     c2.setUuid(UUID.randomUUID());
     c2.setName("Julia");
     c2.setBirthdate(LocalDate.of(2005, Month.OCTOBER, 1));
-    c2.setState("active");
+    c2.setState(CustomerState.ACTIVE);
     customers.put(c2.getUuid(), c2);
   }
 
