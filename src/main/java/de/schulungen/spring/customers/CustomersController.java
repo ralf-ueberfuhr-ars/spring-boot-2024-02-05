@@ -81,6 +81,13 @@ public class CustomersController {
   }
 
   // Löschen
-
+  @DeleteMapping("/{uuid}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  void delete(@PathVariable UUID uuid) {
+    if(!customers.containsKey(uuid)) {
+      throw new NotFoundException();
+    }
+    customers.remove(uuid);
+  }
 
 }
