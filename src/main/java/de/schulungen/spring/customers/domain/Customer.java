@@ -1,4 +1,4 @@
-package de.schulungen.spring.customers;
+package de.schulungen.spring.customers.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

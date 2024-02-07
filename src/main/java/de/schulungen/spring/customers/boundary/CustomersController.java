@@ -1,7 +1,9 @@
-package de.schulungen.spring.customers;
+package de.schulungen.spring.customers.boundary;
 
+import de.schulungen.spring.customers.domain.Customer;
+import de.schulungen.spring.customers.domain.CustomersService;
+import de.schulungen.spring.customers.domain.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

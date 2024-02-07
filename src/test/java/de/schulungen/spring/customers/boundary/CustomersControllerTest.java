@@ -1,5 +1,7 @@
-package de.schulungen.spring.customers;
+package de.schulungen.spring.customers.boundary;
 
+import de.schulungen.spring.customers.domain.CustomersService;
+import de.schulungen.spring.customers.domain.NotFoundException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

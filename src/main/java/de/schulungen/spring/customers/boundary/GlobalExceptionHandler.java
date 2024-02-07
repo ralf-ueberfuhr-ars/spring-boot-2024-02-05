@@ -1,5 +1,6 @@
-package de.schulungen.spring.customers;
+package de.schulungen.spring.customers.boundary;
 
+import de.schulungen.spring.customers.domain.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
