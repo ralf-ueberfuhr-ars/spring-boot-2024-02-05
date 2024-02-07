@@ -1,5 +1,7 @@
-package de.schulungen.spring.customers;
+package de.schulungen.spring.customers.boundary;
 
+import de.schulungen.spring.customers.domain.CustomersService;
+import de.schulungen.spring.customers.domain.NotFoundException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -23,7 +25,8 @@ class CustomersControllerTest {
     // Arrange
     UUID uuid = UUID.randomUUID();
     CustomersService service = mock(CustomersService.class);
-    CustomersController controller = new CustomersController(service);
+    CustomerDTOMapper mapper = new CustomerDTOMapper();
+    CustomersController controller = new CustomersController(service, mapper);
     when(service.findByUuid(uuid))
       .thenReturn(Optional.empty());
     // Act + Assert

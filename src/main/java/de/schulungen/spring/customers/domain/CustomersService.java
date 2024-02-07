@@ -1,4 +1,4 @@
-package de.schulungen.spring.customers;
+package de.schulungen.spring.customers.domain;
 
 import org.springframework.stereotype.Service;
 
@@ -31,15 +31,15 @@ public class CustomersService {
     customers.put(c2.getUuid(), c2);
   }
 
-  Stream<Customer> getAll() {
+  public Stream<Customer> getAll() {
     return customers.values().stream();
   }
 
-  Optional<Customer> findByUuid(UUID uuid) {
+  public Optional<Customer> findByUuid(UUID uuid) {
     return Optional.ofNullable(customers.get(uuid));
   }
 
-  void create(Customer customer) {
+  public void create(Customer customer) {
     UUID uuid = UUID.randomUUID();
     customer.setUuid(uuid);
     customers.put(uuid, customer);
@@ -51,7 +51,7 @@ public class CustomersService {
     }
   }
 
-  void replace(Customer customer) {
+  public void replace(Customer customer) {
     if(null == customer.getUuid()) {
       throw new IllegalArgumentException("customer must have a uuid");
     }
@@ -59,7 +59,7 @@ public class CustomersService {
     customers.put(customer.getUuid(), customer);
   }
 
-  void delete(UUID uuid) {
+  public void delete(UUID uuid) {
     checkExisting(uuid);
     customers.remove(uuid);
   }

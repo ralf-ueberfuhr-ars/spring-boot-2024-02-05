@@ -1,4 +1,4 @@
-package de.schulungen.spring.customers;
+package de.schulungen.spring.customers.boundary;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class Customer {
+public class CustomerDTO {
 
   @JsonProperty(access = JsonProperty.Access.READ_ONLY)
   private UUID uuid;
