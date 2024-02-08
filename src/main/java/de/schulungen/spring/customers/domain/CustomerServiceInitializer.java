@@ -16,7 +16,7 @@ public class CustomerServiceInitializer {
 
   @EventListener(ContextRefreshedEvent.class)
   public void initializeSamples() {
-    if(service.count()<1) {
+    if (service.count() < 1) {
       Customer c1 = new Customer();
       c1.setName("Tom");
       c1.setBirthdate(LocalDate.of(2000, Month.FEBRUARY, 14));
