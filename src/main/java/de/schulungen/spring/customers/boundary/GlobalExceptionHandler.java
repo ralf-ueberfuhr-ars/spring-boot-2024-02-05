@@ -1,6 +1,7 @@
 package de.schulungen.spring.customers.boundary;
 
 import de.schulungen.spring.customers.domain.NotFoundException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -18,6 +19,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     // Objekte als Rückgabewert -> JSON-Body
     // u.a. ProblemDetail (RFC-9457)
     // u.a. ResponseEntity
+  }
+
+  @ExceptionHandler(ConstraintViolationException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  void handleValidationException() {
+    // do nthing
   }
 
 

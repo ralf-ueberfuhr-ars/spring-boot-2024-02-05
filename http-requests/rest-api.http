@@ -24,6 +24,23 @@ Content-Type: application/json
 Accept: application/json
 
 {
+  "name": "X",
+  "birthdate": "1996-03-04",
+  "state": "active"
+}
+
+> {%
+  client.test('Customer created successfully', () => {
+    client.assert(response.status === 400);
+  });
+%}
+
+###
+POST {{endpoint}}/customers
+Content-Type: application/json
+Accept: application/json
+
+{
   "name": "Julia",
   "birthdate": "1996-03-04",
   "state": "active"

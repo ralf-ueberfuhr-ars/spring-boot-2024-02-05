@@ -1,6 +1,9 @@
 package de.schulungen.spring.customers.domain;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -10,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+@Validated
 @Service
 public class CustomersService {
 
@@ -35,23 +39,23 @@ public class CustomersService {
     return customers.values().stream();
   }
 
-  public Optional<Customer> findByUuid(UUID uuid) {
+  public Optional<Customer> findByUuid(@NotNull UUID uuid) {
     return Optional.ofNullable(customers.get(uuid));
   }
 
-  public void create(Customer customer) {
+  public void create(@Valid @NotNull Customer customer) {
     UUID uuid = UUID.randomUUID();
     customer.setUuid(uuid);
     customers.put(uuid, customer);
   }
 
-  private void checkExisting(UUID uuid) {
+  private void checkExisting(@NotNull UUID uuid) {
     if(!customers.containsKey(uuid)) {
       throw new NotFoundException();
     }
   }
 
-  public void replace(Customer customer) {
+  public void replace(@Valid Customer customer) {
     if(null == customer.getUuid()) {
       throw new IllegalArgumentException("customer must have a uuid");
     }
@@ -59,7 +63,7 @@ public class CustomersService {
     customers.put(customer.getUuid(), customer);
   }
 
-  public void delete(UUID uuid) {
+  public void delete(@NotNull UUID uuid) {
     checkExisting(uuid);
     customers.remove(uuid);
   }
