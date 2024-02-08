@@ -30,8 +30,6 @@ public class CustomersService {
   }
 
   public void create(@Valid @NotNull Customer customer) {
-    UUID uuid = UUID.randomUUID();
-    customer.setUuid(uuid);
     sink.create(customer);
   }
 
