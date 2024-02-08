@@ -3,6 +3,7 @@ package de.schulungen.spring.customers.boundary;
 import de.schulungen.spring.customers.domain.Customer;
 import de.schulungen.spring.customers.domain.CustomersService;
 import de.schulungen.spring.customers.domain.NotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class CustomersController {
   // Anlegen: POST /customers + Body -> 201 + Body + Location-Header
   @PostMapping
   //@ResponseStatus(HttpStatus.CREATED)
-  ResponseEntity<CustomerDTO> create(@RequestBody CustomerDTO customerDto) {
+  ResponseEntity<CustomerDTO> create(@Valid @RequestBody CustomerDTO customerDto) {
     Customer customer = mapper.map(customerDto);
     service.create(customer);
     CustomerDTO body = mapper.map(customer);
@@ -64,7 +65,12 @@ public class CustomersController {
   // Überschreiben: PUT /customers/{uuid} + Body ->
   @PutMapping("/{uuid}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  void replace(@PathVariable UUID uuid, @RequestBody CustomerDTO customer) {
+  void replace(
+    @PathVariable
+    UUID uuid,
+    @Valid @RequestBody
+    CustomerDTO customer
+  ) {
     customer.setUuid(uuid);
     service.replace(mapper.map(customer));
   }
