@@ -2,42 +2,41 @@ package de.schulungen.spring.customers.domain;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
 @Validated
 @Service
+@RequiredArgsConstructor
 public class CustomersService {
 
-  // replace later
-  private final Map<UUID, Customer> customers = new HashMap<>();
+  private final CustomersSink sink;
 
   public long count() {
-    return customers.size();
+    return sink.count();
   }
 
   public Stream<Customer> getAll() {
-    return customers.values().stream();
+    return sink.readAll();
   }
 
   public Optional<Customer> findByUuid(@NotNull UUID uuid) {
-    return Optional.ofNullable(customers.get(uuid));
+    return sink.readByUUid(uuid);
   }
 
   public void create(@Valid @NotNull Customer customer) {
     UUID uuid = UUID.randomUUID();
     customer.setUuid(uuid);
-    customers.put(uuid, customer);
+    sink.create(customer);
   }
 
   private void checkExisting(@NotNull UUID uuid) {
-    if(!customers.containsKey(uuid)) {
+    if(!sink.existsByUuid(uuid)) {
       throw new NotFoundException();
     }
   }
@@ -47,12 +46,12 @@ public class CustomersService {
       throw new IllegalArgumentException("customer must have a uuid");
     }
     checkExisting(customer.getUuid());
-    customers.put(customer.getUuid(), customer);
+    sink.update(customer);
   }
 
   public void delete(@NotNull UUID uuid) {
     checkExisting(uuid);
-    customers.remove(uuid);
+    sink.deleteByUuid(uuid);
   }
 
 }
