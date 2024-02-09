@@ -1,14 +1,12 @@
 package de.schulungen.spring.customers.domain;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-@Component
+//@Component
 public class InMemoryCustomersSink implements CustomersSink {
 
   private final Map<UUID, Customer> customers = new HashMap<>();
@@ -35,6 +33,8 @@ public class InMemoryCustomersSink implements CustomersSink {
 
   @Override
   public void create(Customer customer) {
+    UUID uuid = UUID.randomUUID();
+    customer.setUuid(uuid);
     customers.put(customer.getUuid(), customer);
   }
 
