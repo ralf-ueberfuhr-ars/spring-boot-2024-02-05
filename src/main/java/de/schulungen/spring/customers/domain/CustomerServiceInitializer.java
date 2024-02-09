@@ -1,6 +1,7 @@
 package de.schulungen.spring.customers.domain;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import java.time.Month;
 
 @Component
 @RequiredArgsConstructor
+@Profile("dev")
 public class CustomerServiceInitializer {
 
   private final CustomersService service;
