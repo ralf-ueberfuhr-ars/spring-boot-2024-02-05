@@ -1,4 +1,4 @@
-package de.schulungen.spring.customers.boundary;
+package de.schulungen.spring.customers.boundary.config;
 
 import de.schulungen.spring.customers.domain.NotFoundException;
 import jakarta.validation.ConstraintViolationException;
