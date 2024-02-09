@@ -1,9 +1,9 @@
 package de.schulungen.spring.customers.domain;
 
+import de.schulungen.spring.customers.domain.interceptors.PublishEvent;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -17,7 +17,6 @@ import java.util.stream.Stream;
 public class CustomersService {
 
   private final CustomersSink sink;
-  private final ApplicationEventPublisher eventPublisher;
 
   public long count() {
     return sink.count();
@@ -31,9 +30,9 @@ public class CustomersService {
     return sink.readByUUid(uuid);
   }
 
+  @PublishEvent(CustomerCreatedEvent.class)
   public void create(@Valid @NotNull Customer customer) {
     sink.create(customer);
-    eventPublisher.publishEvent(new CustomerCreatedEvent(customer));
   }
 
   private void checkExisting(@NotNull UUID uuid) {
